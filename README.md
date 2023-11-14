@@ -19,7 +19,7 @@ This repository demonstrates the integration of TensorFlow with the Vertica data
 #### Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/vertica-tensorflow-integration.git
+git clone https://github.com/VerticaDataScientist/vertica-tensorflow-integration.git
 ```
 
 ## Usage
