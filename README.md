@@ -33,13 +33,11 @@ This script takes the input model (your/model/directory) and converts it to a fr
 ### Import the frozen graph into Vertica:
 
 Connect to the Vertica database using your preferred SQL client or command-line interface.
-Run the following SQL command to create a user-defined function (UDF) that loads the TensorFlow model:
+Run the following SQL command to import TensorFlow model:
 
 ```sql
 SELECT IMPORT_MODELS ( 'path/to/save/frozen_model' USING PARAMETERS category='TENSORFLOW');
 ```
-Optionally, you can create a wrapper function that calls the UDF and performs any necessary preprocessing or postprocessing steps.
-
 ### Run the example in-database scoring:
 
 Connect to the Vertica database.
