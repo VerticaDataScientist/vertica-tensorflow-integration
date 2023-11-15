@@ -60,5 +60,11 @@ FROM test_reviews ORDER BY id ) AS res;
 
 The script demonstrates how to use the TensorFlow model imported into Vertica to perform scoring on the provided example data.
 
+
+## Embedding UDx Example
+
+If you are interested in exploring the embedding User-Defined Extension (UDx), please refer to the example in the [UDX-Examples](https://github.com/VerticaDataScientist/UDX-Examples/tree/master/scalar-UDXs/embedding) repository. The example provides insights into the implementation and usage of the embedding UDx.
+
+
 ## Acknowledgments
 This project is inspired by the need for integrating TensorFlow with Vertica and leveraging the power of in-database scoring.
