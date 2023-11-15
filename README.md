@@ -10,9 +10,8 @@ This repository demonstrates the integration of TensorFlow with the Vertica data
 
 ## Repository Structure
 - `freeze_tf2_model.py` : Python script to convert a TensorFlow model to a frozen graph
-- example_model/: Directory containing an example pre-trained TensorFlow model
-- example_data/: Directory containing example data for scoring
-- example_query.sql: SQL script demonstrating in-database scoring using the TensorFlow model
+- Tensorflow_Sentiment_Analysis.ipynb: A notebook example to trained TensorFlow model
+- load_data.sql: SQL script to create a data example for scoring
 
 
 ## Setup Instructions
@@ -44,21 +43,24 @@ Optionally, you can create a wrapper function that calls the UDF and performs an
 ### Run the example in-database scoring:
 
 Connect to the Vertica database.
-Execute the `example_query.sql` script using your preferred SQL client or command-line interface.
+Execute the `load_tf_data.sql` script using your preferred SQL client or command-line interface. This file will create a table of 3 rows of reviews and their sentiment and embeddings (you can use an UDX to create embedding to your string)
 
 ```sql
-SELECT PREDICT_TENSORFLOW (*
-                   USING PARAMETERS model_name='frozen_model', num_passthru_cols=1)
-                   OVER(PARTITION BEST) FROM data_table;
+SELECT PREDICT_TENSORFLOW (* USING PARAMETERS model_name='frozen_model', num_passthru_cols=3) 
+OVER(PARTITION BEST) AS (id, reviews, sentiment, prediction) 
+FROM test_reviews ORDER BY id
+```
+or
+
+```sql
+-- return id, label and prediction columns
+SELECT id, sentiment, prediction
+from (SELECT PREDICT_TENSORFLOW (* USING PARAMETERS model_name='frozen_model', num_passthru_cols=3) 
+OVER(PARTITION BEST) AS (id, reviews, sentiment, prediction) 
+FROM test_reviews ORDER BY id ) AS res;
 ```
 
 The script demonstrates how to use the TensorFlow model imported into Vertica to perform scoring on the provided example data.
 
-## Contributing
-Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
-
-## License
-This repository is licensed under the MIT License.
-
 ## Acknowledgments
-This project is inspired by the need for integrating TensorFlow with Vertica and leveraging the power of in-database scoring. Special thanks to the TensorFlow and Vertica communities for their valuable contributions and support.
+This project is inspired by the need for integrating TensorFlow with Vertica and leveraging the power of in-database scoring.
