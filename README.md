@@ -8,22 +8,24 @@ This repository demonstrates the integration of TensorFlow with the Vertica data
     $ /opt/vertica/bin/admintools -t install_package -d database_name -p 'password' --package TFIntegration
     ```
 
-## Repository Structure
+## 1. Repository Structure
 - `freeze_tf2_model.py` : Python script to convert a TensorFlow model to a frozen graph
 - Tensorflow_Sentiment_Analysis.ipynb: A notebook example to trained TensorFlow model
 - load_data.sql: SQL script to create a data example for scoring
 
 
-## Setup Instructions
-#### Clone the repository:
+## 2. Setup Instructions (Done in user's machine)
+##### 1- Clone the repository into your machine:
 
 ```bash
 git clone https://github.com/VerticaDataScientist/vertica-tensorflow-integration.git
 ```
 
-## Usage
+##### 2- Run `Tensorflow_Sentiment_Analysis.ipynb` to train and save the model
+> Find the data set in this [link](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews)
 
-Convert the TensorFlow model to a frozen graph:
+
+##### 3- Convert the TensorFlow model to a frozen graph:
 
 ```bash
 python freeze_tf2_model.py your/model/directory path/to/save/frozen_model
@@ -35,15 +37,16 @@ This script takes the input model (your/model/directory) and converts it to a fr
 python freeze_tf2_model.py your/model/directory path/to/save/frozen_model 1
 ```
 
-### Import the frozen graph into Vertica:
+## 3. Import the frozen graph into Vertica:
 
-Connect to the Vertica database using your preferred SQL client or command-line interface.
+Connect to the Vertica database using your preferred SQL client or command-line interface. 
+Load the `frozen_model` folder into server side.
 Run the following SQL command to import TensorFlow model:
 
 ```sql
 SELECT IMPORT_MODELS ( 'path/to/save/frozen_model' USING PARAMETERS category='TENSORFLOW');
 ```
-### Run the example in-database scoring:
+## 4. Run the example in-database scoring:
 
 Connect to the Vertica database.
 Execute the `load_tf_data.sql` script using your preferred SQL client or command-line interface. This file will create a table of 3 rows of reviews and their sentiment and embeddings (you can use an UDX to create embedding to your string)
@@ -65,8 +68,8 @@ FROM test_reviews ORDER BY id ) AS res;
 
 The script demonstrates how to use the TensorFlow model imported into Vertica to perform scoring on the provided example data.
 
-
-## Embedding UDx Example
+---
+#### Embedding UDx Example
 
 If you are interested in exploring the embedding User-Defined Extension (UDx), please refer to the example in the [UDX-Examples](https://github.com/VerticaDataScientist/UDX-Examples/tree/master/scalar-UDXs/embedding) repository. The example provides insights into the implementation and usage of the embedding UDx.
 
