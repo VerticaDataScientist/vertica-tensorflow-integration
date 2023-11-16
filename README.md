@@ -30,6 +30,11 @@ python freeze_tf2_model.py your/model/directory path/to/save/frozen_model
 ```
 This script takes the input model (your/model/directory) and converts it to a frozen graph (path/to/save/model).
 
+- For complex data type add argument `1`:
+```bash
+python freeze_tf2_model.py your/model/directory path/to/save/frozen_model 1
+```
+
 ### Import the frozen graph into Vertica:
 
 Connect to the Vertica database using your preferred SQL client or command-line interface.
