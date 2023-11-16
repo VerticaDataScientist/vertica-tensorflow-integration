@@ -65,6 +65,22 @@ The script demonstrates how to use the TensorFlow model imported into Vertica to
 
 If you are interested in exploring the embedding User-Defined Extension (UDx), please refer to the example in the [UDX-Examples](https://github.com/VerticaDataScientist/UDX-Examples/tree/master/scalar-UDXs/embedding) repository. The example provides insights into the implementation and usage of the embedding UDx.
 
+----
+📚 _Note: Using TensorFlow with Complex Data Types in Vertica_
 
+If you have a complex data type (ROW type) in a column and wish to leverage TensorFlow for scoring, Vertica provides support through the use of a bounded ARRAY. Specify the dimension during table creation using the syntax outlined in the [Vertica documentation](https://docs.vertica.com/23.4.x/en/sql-reference/data-types/complex-types/array/#syntax-for-column-definition).
+
+Once your table is set up, you can use the `PREDICT_TENSORFLOW_SCALAR` function to perform scoring. Here's an example query:
+
+```sql
+SELECT id, review, pred.'Identity:0'[0] 
+FROM (
+  SELECT id, review, PREDICT_TENSORFLOW_SCALAR(embeddings USING PARAMETERS model_name='frozen_model') as pred 
+  FROM idbm
+) as res;
+```
+For more details, refer to the Vertica documentation on [ARRAY](https://docs.vertica.com/23.4.x/en/sql-reference/data-types/complex-types/array/#syntax-for-column-definition) data types and [PREDICT_TENSORFLOW_SCALAR](https://docs.vertica.com/23.4.x/en/sql-reference/functions/ml-functions/transformation-functions/predict-tensorflow-scalar/).
+
+---
 ## Acknowledgments
 This project is inspired by the need for integrating TensorFlow with Vertica and leveraging the power of in-database scoring.
